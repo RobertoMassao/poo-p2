@@ -9,7 +9,7 @@ class Player
     private int $level;
     private Inventory $inventory;
 
-    public function __construct(string $nickname, int $level, Inventory $inventory)
+    public function __construct(string $nickname, Inventory $inventory, int $level = 1)
     {
         $this->setNickname($nickname);
         $this->setLevel($level);
@@ -33,7 +33,7 @@ class Player
 
     public function setLevel(int $level): void
     {
-        $this->level = 1;
+        $this->level = $level;
     }
 
     public function getInventory(): Inventory
@@ -44,5 +44,31 @@ class Player
     public function setInventory(Inventory $inventory): void
     {
         $this->inventory = $inventory;
+    }
+
+    public function addItem(Item $item): string
+    {
+        $inventory = $this->getInventory();
+        if ($inventory->addItem($item)) {
+            return "{$item->getName()} Adcionado ao Inventário";
+        }
+        return "Inventário Cheio";
+    }
+
+    public function removeItem(Item $item): string
+    {
+        $inventory = $this->getInventory();
+        if ($inventory->removeItem($item)) {
+            return "Removido com Sucesso";
+        }
+        return "Item não encontrado";
+    }
+
+    public function upgradeLevel(): void
+    {
+        $newLevel = $this->getLevel() + 1;
+        $this->setLevel($newLevel);
+        $inventory = $this->getInventory();
+        $inventory->UpdateMaxCapacity($newLevel);
     }
 }
