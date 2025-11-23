@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class Item
 {
     protected string $name;
@@ -7,11 +9,11 @@ class Item
     protected string $class;
 
 
-    public function __construct(string $name, string $class)
+    public function __construct(string $name, string $class, int $size)
     {
         $this->setName($name);
-        $this->setSize(1);
         $this->setClass($class);
+        $this->setSize($size);
     }
 
     public function getName(): string
@@ -21,23 +23,18 @@ class Item
 
     public function setName($name): void
     {
-        $name = trim($name);
-        if(empty($name)) {
-            $name = "Varinha das Varinhas";
-        }
+
         $this->name = $name;
     }
 
-    public function getSize():int
+    public function getSize(): int
     {
         return $this->size;
     }
 
     public function setSize($size): void
     {
-        if(!isset($size) && $size <=0){
-            $this->size = 1;
-        }
+
         $this->size = $size;
     }
 
@@ -46,22 +43,13 @@ class Item
         return $this->class;
     }
 
-    public function setClass($class): void{
-        $class = trim($class);
-        if(empty($class)){
-           $this->$class = 'Classe Padrão';
-        }
+    public function setClass($class): void
+    {
         $this->class = $class;
-
     }
 
     public function resume(): string
     {
         return "<br>Item: {$this->name}<br>Tamanho: {$this->size}<br>Classe: {$this->class}<br>";
     }
-
 }
-
-
-
-
