@@ -69,11 +69,11 @@ class Inventory
         return $freeCapacit;
     }
 
-    public function updateMaxCapacity($level)
+    public function updateMaxCapacity(int $level): void
     {
-        $currentCapacity = $this->getMaxCapacity();
-        $newCapacity = $currentCapacity + ($level * 3);
-        $this->setMaxCapacity($newCapacity);
+    $baseCapacity = 20;
+    $bonus = $level * 3;
+    $this->setMaxCapacity($baseCapacity + $bonus);
     }
 
     public function resume(): string
