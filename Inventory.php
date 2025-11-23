@@ -6,12 +6,12 @@ class Inventory
 {
     private int $maxCapacity;
     /**@var Item[] */
-    private array $itens;
+    private array $items;
 
     public function __construct($maxCapacity = 20)
     {
         $this->SetmaxCapacity($maxCapacity);
-        $this->setItens();
+        $this->setItems();
     }
 
     public function getMaxCapacity(): int
@@ -25,34 +25,34 @@ class Inventory
         return;
     }
 
-    public function getItens(): array
+    public function getItems(): array
     {
-        return $this->itens;
+        return $this->items;
     }
 
-    public function setItens(): void
+    public function setItems(): void
     {
-        $this->itens = [];
+        $this->items = [];
         return;
     }
 
     public function addItem(Item $item): bool
     {
         if ($item->getSize() <= $this->freeCapacit()) {
-            $this->itens[] = $item;
+            $this->items[] = $item;
             return true;
         }
         return false;
     }
 
-    public function removeItem(Item $item): bool
+    public function removeItem(string $name): bool
     {
-        $name = $item->getName();
+
         $name = mb_strtolower($name);
 
-        foreach ($this->itens as $index => $item) {
+        foreach ($this->items as $index => $item) {
             if (mb_strtolower($item->getName()) == $name) {
-                array_splice($this->itens, $index, 1);
+                array_splice($this->items, $index, 1);
                 return true;
             }
         }
@@ -62,7 +62,7 @@ class Inventory
     public function freeCapacit(): int
     {
         $occupiedSpace = 0;
-        foreach ($this->itens as $item) {
+        foreach ($this->items as $item) {
             $occupiedSpace += $item->getSize();
         }
         $freeCapacit =  $this->maxCapacity - $occupiedSpace;
@@ -74,5 +74,19 @@ class Inventory
         $currentCapacity = $this->getMaxCapacity();
         $newCapacity = $currentCapacity + ($level * 3);
         $this->setMaxCapacity($newCapacity);
+    }
+
+    public function resume(): string
+    {
+
+        $response = "";
+        $response .= "Capacidade do Inventário: {$this->getMaxCapacity()}<br>";
+        $response .= "Espaço Disponível no Inventário: {$this->freeCapacit()}<br>";
+
+        foreach ($this->items as $index => $item) {
+            $response .= sprintf("Item #%d ", $index + 1);
+            $response .= $item->resume();
+        }
+        return $response;
     }
 }

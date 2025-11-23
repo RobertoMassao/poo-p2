@@ -50,6 +50,6 @@ class Item
 
     public function resume(): string
     {
-        return "<br>Item: {$this->name}<br>Tamanho: {$this->size}<br>Classe: {$this->class}<br>";
+        return "{$this->name} - Classe: {$this->class} - Tamanho {$this->size}<br>";
     }
 }
