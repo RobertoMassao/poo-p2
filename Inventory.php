@@ -10,7 +10,7 @@ class Inventory
 
     public function __construct($maxCapacity = 20)
     {
-        $this->SetmaxCapacity($maxCapacity);
+        $this->setmaxCapacity($maxCapacity);
         $this->setItems();
     }
 
@@ -47,7 +47,6 @@ class Inventory
 
     public function removeItem(string $name): bool
     {
-
         $name = mb_strtolower($name);
 
         foreach ($this->items as $index => $item) {
@@ -59,29 +58,28 @@ class Inventory
         return false;
     }
 
-    public function freeCapacit(): int
+    public function freeCapacity(): int
     {
         $occupiedSpace = 0;
         foreach ($this->items as $item) {
             $occupiedSpace += $item->getSize();
         }
-        $freeCapacit =  $this->maxCapacity - $occupiedSpace;
-        return $freeCapacit;
+        $freeCapacity =  $this->maxCapacity - $occupiedSpace;
+        return $freeCapacity;
     }
-
-    public function updateMaxCapacity($level)
+    
+    public function updateMaxCapacity(int $level): void
     {
-        $currentCapacity = $this->getMaxCapacity();
-        $newCapacity = $currentCapacity + ($level * 3);
-        $this->setMaxCapacity($newCapacity);
+    $baseCapacity = 20;
+    $bonus = $level * 3;
+    $this->setMaxCapacity($baseCapacity + $bonus);
     }
-
     public function resume(): string
     {
 
         $response = "";
         $response .= "Capacidade do Inventário: {$this->getMaxCapacity()}<br>";
-        $response .= "Espaço Disponível no Inventário: {$this->freeCapacit()}<br>";
+        $response .= "Espaço Disponível no Inventário: {$this->freeCapacity()}<br>";
 
         foreach ($this->items as $index => $item) {
             $response .= sprintf("Item #%d ", $index + 1);
